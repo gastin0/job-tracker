@@ -29,6 +29,11 @@ export async function GET() {
         .sort({ appliedDate: 1 })
         .toArray()
 
+        const result = applications.map((doc) => ({
+            ...doc,
+            _id: doc._id.toString(),
+        }));
+
         return Response.json(applications);
     } catch (error) {
         return new Response(
