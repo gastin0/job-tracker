@@ -1,5 +1,5 @@
 async function getApplications() {
-    const res = await fetch("http://localhost:3000/api/applications", {
+    const res = await fetch("api/applications", {
         cache: "no-store",
     });
 
@@ -21,7 +21,7 @@ export default async function ApplicationsPage() {
             <ul>
                 {applications.map((app) => (
                     <li key={app._id}>
-                        {app.company} - {app.status}
+                        {app.company} - {app.status} ({app.type})
                     </li>
                 ))}
             </ul>
