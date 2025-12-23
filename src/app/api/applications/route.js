@@ -3,19 +3,17 @@ import { ObjectId } from "mongodb";
 import { COMPILER_INDEXES } from "next/dist/shared/lib/constants";
 
 
-const ALLOWED_STATUS = [
-    "Applied",
-    "Test",
-    "Interview",
-    "offer",
-    "Rejected"
-]
+const ALLOWED_APPLICATION_STATUS = [
+    "applied",
+    "in_progress",
+    "rejected",
+];
 
-const ALLOWED_WORK_TYPE = [
-    "Remote",
-    "Hybrid",
-    "On-site"
-]
+const ALLOWED_WORK_ARRANGEMENT = [
+    "remote",
+    "hybrid",
+    "on-site",
+];
 
 
 export async function GET() {
@@ -26,15 +24,15 @@ export async function GET() {
         const applications = await db
         .collection("applications")
         .find({})
-        .sort({ appliedDate: 1 })
-        .toArray()
+        .sort({ appliedDate: -1 })
+        .toArray();
 
         const result = applications.map((doc) => ({
             ...doc,
             _id: doc._id.toString(),
         }));
 
-        return Response.json(applications);
+        return Response.json(result);
     } catch (error) {
         return new Response(
             JSON.stringify({ error: error.message }),
@@ -48,33 +46,32 @@ export async function POST(request) {
             const body = await request.json();
 
             const {
-                company,
-                position,
-                location = "",
-                workType,
-                status,
-                appliedDate,
+                companyName,
+                jobTitle,
+                workArrangement,
+                applicationStatus,
+                applicationDate,
                 notes = "",
                 isPublic = false,
             } = body;
 
-            if (!company || !position || !status || !workType) {
+            if (!companyName || !jobTitle || !workArrangement || !applicationStatus) {
                 return new Response(
                     JSON.stringify({ error: "Missing required field" }),
                     { status: 400 }
                 )
             }
 
-            if (!ALLOWED_STATUS.includes(status)) {
+            if (!ALLOWED_APPLICATION_STATUS.includes(applicationStatus)) {
                 return new Response(
-                    JSON.stringify({ error: "Invalid status value" }),
+                    JSON.stringify({ error: "Invalid application status" }),
                     { status: 400 }
                 );
             }
 
-            if (!ALLOWED_WORK_TYPE.includes(workType)) {
+            if (!ALLOWED_WORK_ARRANGEMENT.includes(workArrangement)) {
                 return new Response(
-                    JSON.stringify({ error: "Invalid work type value" }),
+                    JSON.stringify({ error: "Invalid work arrangement" }),
                     { status: 400 }
                 );
             }
@@ -83,16 +80,17 @@ export async function POST(request) {
             const db = client.db("job_tracker");
 
             const newApplication = {
-                company,
-                position,
-                location,
-                workType,
-                status,
-                appliedDate: appliedDate ? new Data(appliedDate) : new Date(),
+                companyName,
+                jobTitle,
+                workArrangement,
+                applicationStatus,
+                applicationDate: applicationDate
+                ? new Date(applicationDate)
+                : new Date(),
                 notes,
                 isPublic,
                 createdAt: new Date(),
-                updatedAt: new Date,
+                updatedAt: new Date(),
             };
 
             const result = await db
@@ -101,8 +99,10 @@ export async function POST(request) {
 
             return Response.json({
                 message: "Application created!",
-                id: result.insertedId,
-            });
+                id: result.insertedId.toString(),
+            },
+            { status: 201 }
+            );
     } catch (error) {
         return new Response(
             JSON.stringify({ error: error.message }),
