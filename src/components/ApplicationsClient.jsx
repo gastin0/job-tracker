@@ -27,7 +27,26 @@ export default function ApplicationsClient({ applications }){
         router.refresh();
     }
 
+    if (!applications || applications.length === 0) {
+        return (
+            <div className="mt-12 text-center text-gray-500">
+                <h2 className="text-lg font-semibold text-gray-700">No Applications yet</h2>
+                <p className="mt-2">Job application you add will appear here</p>
+
+                {isAdmin && (
+                    <a 
+                        href="/applications/new"
+                        className="inline-block mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                    >
+                        Add your first applications
+                    </a>
+                )}
+            </div>
+        );
+    }
+
     return (
+
         <ApplicationsTable
             applications={applications}
             isAdmin={isAdmin}
