@@ -3,9 +3,6 @@ import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function GET(req, context) {
-    console.log("ROUTE HIT");
-    console.log("RAW PARAMS:", await context.params);
-
     const { id } = await context.params;
     console.log("ID:", id);
 
