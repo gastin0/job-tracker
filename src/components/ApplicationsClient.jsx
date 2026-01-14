@@ -3,15 +3,28 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ApplicationsTable from "./ApplicationsTable";
+import ApplicationsTableSkeleton from "./ApplicationsTableSkeleton";
 import { ADMIN_HEADER_KEY, ADMIN_STORAGE_KEY } from "@/lib/authConstants";
 
 export default function ApplicationsClient({ applications }){
     const router = useRouter();
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const adminSecret = localStorage.getItem(ADMIN_STORAGE_KEY);
         setIsAdmin(Boolean(adminSecret));
+    }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+        // if (applications) {
+        //     setIsLoading(false);
+        // }
     }, []);
 
     async function handleDelete(applicationId) {
@@ -25,6 +38,10 @@ export default function ApplicationsClient({ applications }){
         });
 
         router.refresh();
+    }
+
+    if (isLoading) {
+        return <ApplicationsTableSkeleton />;
     }
 
     if (!applications || applications.length === 0) {
