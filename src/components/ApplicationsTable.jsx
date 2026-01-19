@@ -9,7 +9,7 @@ export default function ApplicationsTable({ applications, isAdmin, onDelete }) {
     }
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto py-4">
             {/* <h1
                 className="text-3xl font-semibold text-blue-900 text-center mb-6 tracking-tight"
             >
@@ -25,7 +25,7 @@ export default function ApplicationsTable({ applications, isAdmin, onDelete }) {
             )} */}
             
 
-            <div className="overflow-x-auto">
+            <div className="w-full overflow-x-auto">
                 <table className="w-full border-collapse text-sm">
                     <thead>
                         <tr className="bg-slate-800 border-b text-slate-200">

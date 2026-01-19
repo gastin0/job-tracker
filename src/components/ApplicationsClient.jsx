@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import ApplicationsTable from "./ApplicationsTable";
 import ApplicationsTableSkeleton from "./ApplicationsTableSkeleton";
 import { ADMIN_HEADER_KEY, ADMIN_STORAGE_KEY } from "@/lib/authConstants";
@@ -11,11 +12,19 @@ export default function ApplicationsClient({ applications }) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState("all");
+    const [arrangementFilter, setarrangementFilter] = useState("all");
     const [mounted, setMounted] = useState(false);
 
-    const filteredApplications = statusFilter === "all"
-        ? applications
-        : applications.filter((app) => app.applicationStatus === statusFilter);
+    const filteredApplications = applications.filter((app) => {
+        const statusMatch = statusFilter === "all" || app.applicationStatus === statusFilter;
+        const arrangementMatch = arrangementFilter === "all" || app.workArrangement === arrangementFilter;
+
+        return statusMatch && arrangementMatch;
+    })
+
+    // const filteredApplications = statusFilter === "all"
+    //     ? applications
+    //     : applications.filter((app) => app.applicationStatus === statusFilter);
 
     useEffect(() => {
         setMounted(true);
@@ -80,9 +89,9 @@ export default function ApplicationsClient({ applications }) {
     }
 
     return (
-        <div>
-            <div>
-                <div className="flex items-center justify-between mb-6">
+        <div className="bg-gray-50">
+            <div className="max-w-6xl mx-auto px-6">
+                <div className="flex items-center justify-between mb-6 mt-6">
                     <h1 className="text-3xl font-semibold text-blue-900 tracking-tight">
                         Work Applications
                     </h1>
@@ -96,33 +105,54 @@ export default function ApplicationsClient({ applications }) {
                         </Link>
                     )}
                 </div>
-            </div>
-            <div className="mt-4 mb-4 flex item-center gap-2">
-                <label
-                    htmlFor="statusFilter"
-                    className="text-sm font-medium text-gray-700"
-                >
-                    Status:
-                </label>
+                <div className="mb=2 flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <label
+                            htmlFor="arrangementFilter"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            Arrangement:
+                        </label>
+                        <select
+                            id="arrangementFilter"
+                            value={arrangementFilter}
+                            onChange={(e) => setarrangementFilter(e.target.value)}
+                            className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
+                        >
+                            <option value="all">All</option>
+                            <option value="remote">Remote</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="on-site">On-site</option>
+                        </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <label
+                            htmlFor="statusFilter"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            Status:
+                        </label>
 
-                <select
-                    id="statusFilter"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
-                >
-                    <option value="all">All</option>
-                    <option value="applied">Applied</option>
-                    <option value="in_progress">In progress</option>
-                    <option value="rejected">Rejected</option>
-                </select>
-            </div>
+                        <select
+                            id="statusFilter"
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
+                        >
+                            <option value="all">All</option>
+                            <option value="applied">Applied</option>
+                            <option value="in_progress">In progress</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
 
-            <ApplicationsTable
-                applications={filteredApplications}
-                isAdmin={mounted && isAdmin}
-                onDelete={handleDelete}
-            />
+                <ApplicationsTable
+                    applications={filteredApplications}
+                    isAdmin={mounted && isAdmin}
+                    onDelete={handleDelete}
+                />
+            </div>
         </div>
     )
 }
