@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ApplicationsTable from "./ApplicationsTable";
+import ApplicationsFilters from "./ApplicationsFilters";
 import ApplicationsTableSkeleton from "./ApplicationsTableSkeleton";
 import { ADMIN_HEADER_KEY, ADMIN_STORAGE_KEY } from "@/lib/authConstants";
 
@@ -21,10 +22,6 @@ export default function ApplicationsClient({ applications }) {
 
         return statusMatch && arrangementMatch;
     })
-
-    // const filteredApplications = statusFilter === "all"
-    //     ? applications
-    //     : applications.filter((app) => app.applicationStatus === statusFilter);
 
     useEffect(() => {
         setMounted(true);
@@ -48,6 +45,10 @@ export default function ApplicationsClient({ applications }) {
         }
     }, [applications]);
 
+    if (isLoading) {
+        return <ApplicationsTableSkeleton />;
+    }
+
     async function handleDelete(applicationId) {
 
 
@@ -66,27 +67,10 @@ export default function ApplicationsClient({ applications }) {
         router.refresh();
     }
 
-    if (isLoading) {
-        return <ApplicationsTableSkeleton />;
+    function handleClearFilters() {
+        setStatusFilter("all");
+        setarrangementFilter("all");
     }
-
-    // if (!filteredApplications || filteredApplications.length === 0) {
-    //     return (
-    //         <div className="mt-12 text-center text-gray-500">
-    //             <h2 className="text-lg font-semibold text-gray-700">No Applications yet</h2>
-    //             <p className="mt-2">Job application you add will appear here</p>
-
-    //             {mounted && isAdmin && (
-    //                 <a
-    //                     href="/applications/new"
-    //                     className="inline-block mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-    //                 >
-    //                     Add your first applications
-    //                 </a>
-    //             )}
-    //         </div>
-    //     );
-    // }
 
     return (
         <div className="bg-gray-50">
@@ -105,51 +89,20 @@ export default function ApplicationsClient({ applications }) {
                         </Link>
                     )}
                 </div>
-                <div className="mb=2 flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <label
-                            htmlFor="arrangementFilter"
-                            className="text-sm font-medium text-gray-700"
-                        >
-                            Arrangement:
-                        </label>
-                        <select
-                            id="arrangementFilter"
-                            value={arrangementFilter}
-                            onChange={(e) => setarrangementFilter(e.target.value)}
-                            className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
-                        >
-                            <option value="all">All</option>
-                            <option value="remote">Remote</option>
-                            <option value="hybrid">Hybrid</option>
-                            <option value="on-site">On-site</option>
-                        </select>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <label
-                            htmlFor="statusFilter"
-                            className="text-sm font-medium text-gray-700"
-                        >
-                            Status:
-                        </label>
 
-                        <select
-                            id="statusFilter"
-                            value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value)}
-                            className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
-                        >
-                            <option value="all">All</option>
-                            <option value="applied">Applied</option>
-                            <option value="in_progress">In progress</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
+                <div>
+                    <ApplicationsFilters
+                        statusFilter={statusFilter}
+                        arrangementFilter={arrangementFilter}
+                        onStatusChange={setStatusFilter}
+                        onArrangementChange={setarrangementFilter}
+                    />
                 </div>
-
+                
                 <ApplicationsTable
                     applications={filteredApplications}
                     totalCount={applications.length}
+                    onClearFilters={handleClearFilters}
                     isAdmin={mounted && isAdmin}
                     onDelete={handleDelete}
                 />

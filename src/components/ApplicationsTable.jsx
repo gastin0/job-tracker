@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ApplicationsTable({ applications, isAdmin, onDelete, totalCount }) {
+export default function ApplicationsTable({ applications, isAdmin, onDelete, onClearFilters, totalCount }) {
     function formatStatus(value) {
         return value ? value.replace("_", " ").toUpperCase() : "";
     }
@@ -62,9 +62,12 @@ export default function ApplicationsTable({ applications, isAdmin, onDelete, tot
                                                 <p className="text-sm font-bold">
                                                     No applications match the selected filters
                                                 </p>
-                                                <p className="text-xs">
-                                                    Try adjusting or clearing the filters
-                                                </p>
+                                                <button 
+                                                    onClick={onClearFilters}
+                                                    className="mt-3 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                                                >
+                                                    Clear Filters
+                                                </button>
                                             </div>
                                         )
                                     }
