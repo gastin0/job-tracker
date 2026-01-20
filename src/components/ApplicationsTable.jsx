@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ApplicationsTable({ applications, isAdmin, onDelete }) {
+export default function ApplicationsTable({ applications, isAdmin, onDelete, totalCount }) {
     function formatStatus(value) {
         return value ? value.replace("_", " ").toUpperCase() : "";
     }
@@ -40,7 +40,38 @@ export default function ApplicationsTable({ applications, isAdmin, onDelete }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {applications.map((application) => (
+                        {applications.length === 0 ? (
+                            <tr>
+                                <td
+                                    colSpan={isAdmin ? 6 : 5}
+                                    className="px-6 py-6 text-center text-gray-700"
+                                >
+                                    {
+                                        totalCount === 0 ?
+                                        (
+                                            <div className="flex flex-col items-center gap-2">
+                                                <p className="text-sm font-bold">
+                                                    No applications yet
+                                                </p>
+                                                <p className="text-xs">
+                                                    Applications you add will appear here
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col items-center gap-2">
+                                                <p className="text-sm font-bold">
+                                                    No applications match the selected filters
+                                                </p>
+                                                <p className="text-xs">
+                                                    Try adjusting or clearing the filters
+                                                </p>
+                                            </div>
+                                        )
+                                    }
+                                </td>
+                            </tr>
+                        ) : (
+                        applications.map((application) => (
                             <tr key={application._id} className="border-b border-slate-700 hover:bg-slate-600/60">
                                 <td className="px-4 py-3 text-slate-900 font-bold">{application.companyName}</td>
                                 <td className="px-4 py-3 text-slate-900">{application.jobTitle}</td>
@@ -90,7 +121,7 @@ export default function ApplicationsTable({ applications, isAdmin, onDelete }) {
                                     </td>
                                 )}
                             </tr>
-                        ))}
+                        )))}
                     </tbody>
                 </table>
             </div>
