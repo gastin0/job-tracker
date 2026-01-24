@@ -47,6 +47,14 @@ export default function ConfirmDeleteModal({
         const lastElement = focusableElements[focusableElements.length - 1];
 
         const handleKeyDown = (event) => {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                if (!isLoading) {
+                    onCancel();
+                }
+                return;
+            }
+            
             if (event.key !== 'Tab') return;
 
             if (event.shiftKey) {
