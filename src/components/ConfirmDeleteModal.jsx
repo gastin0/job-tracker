@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ConfirmDeleteModal({
     open,
@@ -12,25 +12,79 @@ export default function ConfirmDeleteModal({
     onConfirm,
     onCancel,
 }) {
+    const [hasMounted, setHasMounted] = useState(false);
+    const modalRef = useRef(null);
     const cancelButtonRef = useRef(null);
 
     useEffect(() => {
-        if (open) {
-            cancelButtonRef.current?.focus();
-        }
-    }, [open]);
+        setHasMounted(true);
+    }, []);
 
-    if (!open) return null;
+    useEffect(() => {
+        if (!open || !hasMounted) return;
+        cancelButtonRef.current?.focus();
+    }, [open, hasMounted])
+
+    useEffect(() => {
+        if (!open || !hasMounted) return;
+
+        const focusableSelectors = [
+            'button',
+            '[href]',
+            'input',
+            'select',
+            'textarea',
+            '[tabindex]:not([tabindex="-1"])',
+        ];
+
+        const focusableElements = modalRef.current?.querySelectorAll(
+            focusableSelectors.join(',')
+        );
+
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        const handleKeyDown = (event) => {
+            if (event.key !== 'Tab') return;
+
+            if (event.shiftKey) {
+                if (document.activeElement === firstElement) {
+                    event.preventDefault();
+                    lastElement.focus();
+                }
+            } else {
+                if (document.activeElement === lastElement) {
+                    event.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [open, hasMounted]);
+
+    if (!open || !hasMounted) return null;
 
     return (
         <div className="fixed inset-0 z-50">
-            <div
-                className="absolute inset-0 bg-block/40"
-                onClick={isLoading ? undefined : onCancel}
-            />
 
-            <div className="relative flex justify-center">
-                <div className="mt-50 w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+            <div className="relative flex h-full w-full items-start justify-center">
+                <div
+                    className="absolute inset-0 bg-block/40 z-0"
+                    onClick={isLoading ? undefined : onCancel}
+                />
+                <div
+                    ref={modalRef}
+                    role="dialog"
+                    aria-modal="true"
+                    className="relative z-10 mt-50 w-full max-w-md rounded-xl bg-white p-6 shadow-lg"
+                >
                     <h2 className="text-lg font-semibold text-gray-900">
                         {title}
                     </h2>

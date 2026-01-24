@@ -20,6 +20,9 @@ export default function ApplicationsClient({ applications }) {
     const [applicationPendingDeletion, setApplicationPendingDeletion] = useState(null);
     const [isDeleteInProgress, setIsDeleteInProgress] = useState(false);
 
+    const deleteTriggerRef = useRef(null);
+    const tableRef = useRef(null);
+
     const filteredApplications = applications.filter((app) => {
         const statusMatch = statusFilter === "all" || app.applicationStatus === statusFilter;
         const arrangementMatch = arrangementFilter === "all" || app.workArrangement === arrangementFilter;
@@ -53,27 +56,10 @@ export default function ApplicationsClient({ applications }) {
         return <ApplicationsTableSkeleton />;
     }
 
-    // async function handleDelete(applicationId) {
-
-
-    //     const confirmed = window.confirm(
-    //         "Are you sure you want to delete this application? This action cannot be undone."
-    //     );
-    //     if (!confirmed) return;
-
-    //     await fetch(`/api/applications/${applicationId}`, {
-    //         method: "DELETE",
-    //         headers: {
-    //             [ADMIN_HEADER_KEY]: localStorage.getItem(ADMIN_STORAGE_KEY),
-    //         },
-    //     });
-
-    //     router.refresh();
-    // }
-
     const handleDeleteRequest = (application) => {
+        console.log("DELETE REQUEST", application);
+        deleteTriggerRef.current = document.activeElement;
         setApplicationPendingDeletion(application);
-        console.log(application);
     }
 
     const handleDeleteConfirmation = async () => {
@@ -93,6 +79,14 @@ export default function ApplicationsClient({ applications }) {
 
             setApplicationPendingDeletion(null);
 
+            requestAnimationFrame(() => {
+                if (deleteTriggerRef.current?.isConnected) {
+                    deleteTriggerRef.current.focus();
+                } else {
+                    deleteTriggerRef.current = null;
+                }
+            })
+
             router.refresh();
         } catch (error) {
             console.error("Failed to delete application", error);
@@ -103,7 +97,12 @@ export default function ApplicationsClient({ applications }) {
 
     const handleDeleteCancellation = () => {
         setApplicationPendingDeletion(null);
-    }
+
+        requestAnimationFrame(() => {
+            deleteTriggerRef.current?.focus();
+            deleteTriggerRef.current = null;
+        });
+    };
 
     function handleClearFilters() {
         setStatusFilter("all");
@@ -147,7 +146,7 @@ export default function ApplicationsClient({ applications }) {
                     />
                 </div>
                 <>
-                    <ConfirmDeleteModal
+                    {mounted && (<ConfirmDeleteModal
                         open={Boolean(applicationPendingDeletion)}
                         title="Delete Application?"
                         description={
@@ -167,7 +166,7 @@ export default function ApplicationsClient({ applications }) {
                         isLoading={isDeleteInProgress}
                         onConfirm={handleDeleteConfirmation}
                         onCancel={handleDeleteCancellation}
-                    />
+                    />)}
                 </>
             </div>
         </div>
