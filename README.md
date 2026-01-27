@@ -98,7 +98,7 @@ Schema consistency is enforced across API and UI.
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 ```bash
 git clone <repository-url>
 cd job-tracker
@@ -124,7 +124,7 @@ These trade-offs were made to prioritize **code clarity and maintainability** wi
 
 ## 📸 Screenshots
 
---- LATER ---
+*(COMING SOON)*
 
 ---
 
