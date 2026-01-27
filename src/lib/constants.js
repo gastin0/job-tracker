@@ -10,6 +10,5 @@ export const WORK_ARRANGEMENT = {
     ON_SITE: "on-site",
 }
 
-
 export const ALLOWED_APPLICATION_STATUS = Object.values(APPLICATION_STATUS);
 export const ALLOWED_WORK_ARRANGEMENT = Object.values(WORK_ARRANGEMENT);
