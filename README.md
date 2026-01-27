@@ -2,19 +2,19 @@
 
 A full-stack job application tracking app build with Next.js App Router and MongoDB, designed to demonstrate clean architecture, RESTful APIs, and thoughtful UX for real-world CRUD workflows.
 
-This project focuses on clarity, correctness, and user experience, rather than feature bloat.
+> This project focuses on clarity, correctness, and user experience, rather than feature bloat.
 
 ## FEATURES
 - Public read-only application list
 - Admin-only CRUD opeations
 - Stateless REST API with proper HTTP semantics
 - Accessible destructive actions
-  Keyboard support (ESC key)
-  Focus trapping and focus restoration
+  - Keyboard support (ESC key)
+  - Focus trapping and focus restoration
 - Skeleton loading & empty states
 - Clean separation between:
-  Server components (data fetching)
-  Client components (interactivity)
+  - Server components (data fetching)
+  - Client components (interactivity)
 
 ## TECH STACK
 - Framework: Next.js (App Router)
@@ -45,10 +45,10 @@ This approach keeps the backend stateless while still allowing admin functionali
 
 ## API DESIGN
 All data operations are handled through RESTful API routes under:
-- GET - fetch all applications
-- POST - create a new application
-- PUT - update an application
-- DELETE - delete an application
+- `GET` - fetch all applications
+- `POST` - create a new application
+- `PUT` - update an application
+- `DELETE` - delete an application
 
 The API uses:
 - Consistent request/response shapes
@@ -59,7 +59,7 @@ The API uses:
 ## UX & ACCESSIBILITY HIGHLIGHTS
 - Custom delete confirmation modal
 - Keyboard navigation
-- - Escape to close
+  - Escape to close
   - Focus trapped inside modal
   - Focus restored to triggering element
 - Explicit loading state for destructive actions
@@ -87,6 +87,31 @@ cd job-tracker
 npm install
 npm run dev
 ```
+Create a `.env.local` file:
+MONGODB_URI=your_mongodb_connection_string
+
+## PROJECT SCOPE & TRADE-OFFS
+This project intentionally:
+- Does not include full authentication (JWT/session)
+- Uses admin gating instead of multi-user auth
+- Focuses on architecture, UX, and correctness
+
+These trade-offs were made to prioritize code clarity and maintainability within limited scope.
+
+## SCREENSHOTS
+
+--- LATER ---
+
+## WHY THIS PROJECT EXIST
+This project was built to demonstrate:
+- Practical full-stack development
+- Understanding of Next.js App Router constraints
+- Clean REST API design
+- UX and accessibility awareness
+
+It is actively iterated as part of a learning and portfolio process
+
+
 
 
 
