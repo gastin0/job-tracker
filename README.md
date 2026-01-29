@@ -89,6 +89,10 @@ src/
 
 ---
 
+## Architecture
+This project follows a clear separation between server and client responsibilities using the Next.js App Router.
+For detailed architectural decisions, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
 ## 🔐 Admin vs Read-Only Architecture
 - Public can only view applications
 - Admin features (create, edit, delete) are gated client-side
