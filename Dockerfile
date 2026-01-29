@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # 6. Build the Next.js app
-RUN npm run Build
+RUN npm run build
 
 # 7. Expose port 3000 for the container
 EXPOSE 3000
