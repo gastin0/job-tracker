@@ -27,17 +27,21 @@ A full-stack job application tracking app build with **Next.js App Router**, **M
 ---
 
 ## 📂 Project Structure (Simplified)
-App Router Structure
-- Server components are used for **data fetching and routing**
-- Client components handle **state, hooks, and user interaction**
-
-Example:
-- [`applications/page.jsx`](./src/app/applications/page.jsx)
-  → server component (fetches data)
-- [`ApplicationsClient.jsx`](./src/app/components/ApplicationsClient.jsx)
-  → client wrapper (filters, admin logic)
-- [`ApplicationsTable.jsx`](./src/app/components/ApplicationsTable.jsx)
-  → presentational component
+src/
+├─ app/
+│ ├─ applications/
+│ │ ├─ page.jsx       # Public read‑only list (Server)
+│ │ ├─ new/           # Admin‑only create page
+│ │ └─ edit/[id]/     # Admin‑only edit page
+│ ├─ api/applications/ # REST API routes
+│ └─ layout.jsx
+├─ components/
+│ ├─ ApplicationsClient.jsx # Client logic + admin gating
+│ ├─ ApplicationsTable.jsx # Presentational table
+│ ├─ ApplicationsFilters.jsx
+│ └─ ConfirmDeleteModal.jsx # Accessible delete flow
+├─ lib/mongodb.js # MongoDB clientPromise
+└─ public/icons/
 
 ---
 
@@ -53,18 +57,18 @@ Example:
 Each application follows a fixed schema:
 ```json
 {
-  companyNameL 
-  jobTitle
-  workArrangement
-  applicationStatus
-  applicationDate
-  notes
+  companyName: string,
+  jobTitle: string,
+  workArrangement: string,
+  applicationStatus: string,
+  applicationDate: Date,
+  notes: string
 }
 ```
 
 ---
 
-🗑️ Delete UX
+## 🗑️ Delete UX
 - Custom confirmation modal (now `window.confirm`)
 - Focus trapping + Escape handling
 - Backdrop click to cancel
@@ -74,7 +78,7 @@ Each application follows a fixed schema:
 
 ---
 
-🐳 Docker Support
+## 🐳 Docker Support
 Docker configuration lives in a dedicated branch:
 ```bash
 branch: job-tracker-docker
