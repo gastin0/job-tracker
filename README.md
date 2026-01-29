@@ -27,6 +27,47 @@ A full-stack job application tracking app build with **Next.js App Router**, **M
 
 ---
 
+##  🧠 Data Model (Canonical Schema)
+Each application follows a fixed schema:
+```json
+{
+  companyName: string,
+  jobTitle: string,
+  workArrangement: string,
+  applicationStatus: string,
+  applicationDate: Date,
+  notes: string
+}
+```
+
+---
+
+
+## 📸 Screenshots
+
+### Public Applications View
+![Public applications list](./screenshots/applications-public.png)
+
+### Admin View (CRUD Enabled)
+![Admin applications view](./screenshots/applications-admin.png)
+
+*Admin-only actions are conditionally enabled on the same route.*
+
+### Delete Confirmation Modal
+![Delete confirmation modal](./screenshots/delete-confirmation-modal.gif)
+
+*Keyboard-accessible destructive action flow with focus management.*
+
+### Application Form
+![Application form](./screenshots/application-form.png)
+
+### Empty State
+![Empty state](./screenshots/empty-state.png)
+*Empty state clearly indicates that no results match the active filters and provide a reset action.*
+
+
+---
+
 ## 📂 Project Structure (Simplified)
 ```
 src/
@@ -56,20 +97,6 @@ src/
 
 ---
 
-##  🧠 Data Model (Canonical Schema)
-Each application follows a fixed schema:
-```json
-{
-  companyName: string,
-  jobTitle: string,
-  workArrangement: string,
-  applicationStatus: string,
-  applicationDate: Date,
-  notes: string
-}
-```
-
----
 
 ## 🗑️ Delete UX
 - Custom confirmation modal (now `window.confirm`)
@@ -87,7 +114,20 @@ Docker configuration lives in a dedicated branch:
 branch: job-tracker-docker
 ```
 
+
 ---
+
+
+## 📌 Project Scope & Trade-offs
+This project intentionally:
+- Does not include full authentication (JWT/session)
+- Uses admin gating instead of multi-user auth
+- Focuses on architecture, UX, and correctness
+
+These trade-offs were made to prioritize **code clarity and maintainability** within limited scope.
+
+---
+
 
 ## 🚀 Getting Started
 ```bash
@@ -103,38 +143,6 @@ MONGODB_URI=your_mongodb_connection_string
 ADMIN_SECRET=your_admin_secret
 ```
 
-
-## 📌 Project Scope & Trade-offs
-This project intentionally:
-- Does not include full authentication (JWT/session)
-- Uses admin gating instead of multi-user auth
-- Focuses on architecture, UX, and correctness
-
-These trade-offs were made to prioritize **code clarity and maintainability** within limited scope.
-
----
-
-## 📸 Screenshots
-
-### Public Applications View
-![Public applications list](./screenshots/applications-public.png)
-
-### Admin View (CRUD Enabled)
-![Admin applications view](./screenshots/applications-admin.png)
-
-*Admin-only actions are conditionally enabled on the same route.*
-
-### Delete Confirmation Modal
-![Delete confirmation modal](./screenshots/delete-confirmation-modal.gif)
-
-*Keyboard-accessible destructive action flow with focus management.*
-
-### Application Form
-![Application form](./screenshots/application-form.png)
-
-### Empty State
-![Empty state](./screenshots/empty-state.png)
-*Empty state clearly indicates that no results match the active filters and provide a reset action.*
 
 ---
 
