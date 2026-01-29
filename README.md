@@ -31,17 +31,17 @@ A full-stack job application tracking app build with **Next.js App Router**, **M
 src/
 ├─ app/
 │ ├─ applications/
-│ │ ├─ page.jsx       # Public read‑only list (Server)
-│ │ ├─ new/           # Admin‑only create page
-│ │ └─ edit/[id]/     # Admin‑only edit page
-│ ├─ api/applications/ # REST API routes
+│ │ ├─ page.jsx               # Public read‑only list (Server)
+│ │ ├─ new/                   # Admin‑only create page
+│ │ └─ edit/[id]/             # Admin‑only edit page
+│ ├─ api/applications/        # REST API routes
 │ └─ layout.jsx
 ├─ components/
-│ ├─ ApplicationsClient.jsx # Client logic + admin gating
-│ ├─ ApplicationsTable.jsx # Presentational table
+│ ├─ ApplicationsClient.jsx   # Client logic + admin gating
+│ ├─ ApplicationsTable.jsx    # Presentational table
 │ ├─ ApplicationsFilters.jsx
-│ └─ ConfirmDeleteModal.jsx # Accessible delete flow
-├─ lib/mongodb.js # MongoDB clientPromise
+│ └─ ConfirmDeleteModal.jsx   # Accessible delete flow
+├─ lib/mongodb.js             # MongoDB clientPromise
 └─ public/icons/
 ```
 
