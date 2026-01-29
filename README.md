@@ -27,6 +27,7 @@ A full-stack job application tracking app build with **Next.js App Router**, **M
 ---
 
 ## 📂 Project Structure (Simplified)
+```
 src/
 ├─ app/
 │ ├─ applications/
@@ -42,6 +43,7 @@ src/
 │ └─ ConfirmDeleteModal.jsx # Accessible delete flow
 ├─ lib/mongodb.js # MongoDB clientPromise
 └─ public/icons/
+```
 
 ---
 
@@ -83,6 +85,8 @@ Docker configuration lives in a dedicated branch:
 ```bash
 branch: job-tracker-docker
 ```
+
+---
 
 ## 🚀 Getting Started
 ```bash
