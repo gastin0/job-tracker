@@ -1,7 +1,7 @@
 import ApplicationsClient from "@/components/ApplicationsClient";
 
 export default async function ApplicationPage() {
-    const res = await fetch("http://localhost:3000/api/applications", {
+    const res = await fetch("/api/applications", {
         cache: "no-store",
     });
 
