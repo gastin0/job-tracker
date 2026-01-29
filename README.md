@@ -14,6 +14,7 @@ A full-stack job application tracking app build with **Next.js App Router**, **M
 - **Accessible UX** (keyboard navigation, focus management)
 - **Dockerized setup** (via dedicated branch)
 
+---
 
 ## 🛠 Tech Stack
 - **Framework**: Next.js (App Router)
