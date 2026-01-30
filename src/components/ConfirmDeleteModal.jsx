@@ -19,8 +19,7 @@ export default function ConfirmDeleteModal({
     const cancelButtonRef = useRef(null);
 
     useEffect(() => {
-        setHasMounted(true);
-        // eslint-disable-next-line
+        setHasMounted(true); // eslint-disable-line
     }, []);
 
     useEffect(() => {
