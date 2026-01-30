@@ -1,5 +1,7 @@
 # Job Application Tracker
 
+[![CI](https://github.com/gastin0/job-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/gastin0/job-tracker/actions/workflows/ci.yml)
+
 A full-stack job application tracking app build with **Next.js App Router**, **MongoDB**, and **Tailwind CSS**. Designed as a portfolio project with clean architecture, RESTful APIs, admin/read-only separation, and thoughtful UX for real-world CRUD workflows.
 
 > This project focuses on **clarity, correctness, and user experience**, rather than feature bloat.
